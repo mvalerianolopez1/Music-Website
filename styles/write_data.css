@@ -1,0 +1,48 @@
+h1, form {
+    margin-left: 10px;
+}
+
+.controller {
+    font-size: 15px;
+    display: block;
+    margin-bottom: 10px;
+    line-height: 1;
+    color: #333333;
+    border: 2px solid #CCC;
+}
+
+.button-container {
+    clear: left;
+    float: left;
+    display: block;
+    overflow: hidden;
+    margin-left: 3%;
+}
+
+.buttons {
+    float: left;
+    width: 20%;
+    margin-right: 40px;
+}
+
+.edit_btn {
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    background-color: rgb(122, 182, 32);
+    color: #FFF;
+    padding: 10px 10px;
+    font-size: 16px;
+    border-radius: 10px;
+    
+}
+
+.edit_btn#clearBtn {
+    background-color: red;
+}
+
+#clear {
+    clear: left;
+    display: block;
+    padding-bottom: 5px;;
+}
