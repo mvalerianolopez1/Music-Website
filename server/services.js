@@ -1,14 +1,13 @@
 const fs = require("fs");
 const path = require("path");
 
-const databaseFile = path.join(__dirname + "./files/data.txt");
+const databaseFile = path.join(__dirname + "/../server/files/data.txt");
 
 var services = function(app) {
     app.post("/write-data", function(req, res) {
         var id = "lib" + Date.now();
 
         var musicData = {
-            id: id,
             title: req.body.title,
             artist: req.body.artist,
             album: req.body.album,
@@ -34,8 +33,33 @@ var services = function(app) {
                     })
                 }
             })
+        } else {
+            musicLibraryData.push(musicData);
+
+            fs.writeFile(databaseFile, JSON.stringify(musicLibraryData), function(err) {
+                if(err)
+                    res.send(JSON.stringify({msg : err}));
+                else
+                    res.send(JSON.stringify({msg : "SUCCESS"}));
+            })
         }
-    })
+    });
+
+    app.get("/get-records", function(req, res) {
+        if(fs.existsSync(databaseFile)) {
+            fs.readFile(databaseFile, "utf8", function(err, data) {
+                if(err)
+                    res.send(JSON.stringify({msg: err}));
+                else {
+                    musicLibraryData = JSON.parse(data);
+                    res.send(JSON.stringify({msg:"SUCCESS", musicLibraryData : musicLibraryData}));
+                }
+            });
+        } else {
+            var data = [];
+            res.send(JSON.stringify({msg:"SUCCESS", musicLibraryData : data}));
+        }
+    });
 };
 
 module.exports = services;

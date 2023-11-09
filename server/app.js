@@ -7,6 +7,7 @@ const bodyParser = require("body-parser");
 app.use(cors());
 app.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*");
+    next();
 })
 
 app.use(bodyParser.json());
@@ -16,7 +17,7 @@ app.use("/client", express.static(path.resolve(__dirname + "/../client/")));
 
 // Make server
 var server;
-var port = 5001;
+var port = 5000;
 
 // Page listeners
 var router = require("./router.js");
