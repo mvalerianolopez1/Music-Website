@@ -34,7 +34,7 @@ function showTable(tableData) {
             htmlString += "<td>" + tableData[i].album + "</td>";
             htmlString += "<td>" + tableData[i].albumArtist + "</td>";
             htmlString += "<td id='yearReleased'>" + tableData[i].yearReleased + "</td>";
-            htmlString += "<td class='invis'><button class='delete' id='" + tableData[i].id +"'>Delete</button></td>"
+            htmlString += "<td class='invis'><div class='delete' id='" + tableData[i].id +"'>Delete</div></td>"
         htmlString += "</tr>";
     }
 

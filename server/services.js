@@ -62,28 +62,23 @@ var services = function(app) {
         }
     });
 
-    app.post("/delete-records", function(req, res) {
+    app.post("/delete-data", function(req, res) {
         var musicData = {
-            id : req.id,
-            title : req.body.title,
-            artist : req.body.artist,
-            album : req.body.album,
-            albumArtist : req.body.albumArtist,
-            yearReleased : req.body.yearReleased
+            id : req.body.id
         }
-
-        var musicLibraryData = [];
 
         if(fs.existsSync(databaseFile)) {
             fs.readFile(databaseFile, "utf8", function(err, data) {
                 if (err)
                     res.send(JSON.stringify({msg: err}));
                 else {
-                    musicLibraryData = JSON.parse(data);
-                    delete musicLibraryData[musicData.id];
-                    musicLibraryData.push(musicData);
+                    console.log(musicData.id);
+                    var idToDelete = musicData.id;
+                    var filteredArray = musicLibraryData.filter((obj) => obj.id !== idToDelete);
 
-                    fs.writeFile(databaseFile, JSON.stringify(musicLibraryData), function(err) {
+                    // Object.keys(musicLibraryData).forEach(key => musicLibraryData[key] === undefined ? delete musicLibraryData[key] : {});
+
+                    fs.writeFile(databaseFile, JSON.stringify(filteredArray), function(err) {
                         if (err)
                             res.send(JSON.stringify({msg: err}));
                         else

@@ -1,6 +1,5 @@
-$(".delete").click(function(id) {
-    
-
+$("#musicRecords").on("click", ".delete", function() {
+    var id = $(this).attr("id");
     var title = $("#title").val();
     var artist = $("#artist").val();
     var album = $("#album").val();
@@ -8,6 +7,7 @@ $(".delete").click(function(id) {
     var year = $("#year").val();
 
     var jsonObject = {
+        id : id,
         title : title,
         artist : artist,
         album : album,
@@ -16,13 +16,13 @@ $(".delete").click(function(id) {
     };
 
     $.ajax({
-        url : "http://localhost:5000" + "/write-data",
+        url : "http://localhost:5000" + "/delete-data",
         type : "post",
         data : jsonObject,
         success : function(res) {
             var data = JSON.parse(res);
             if(data.msg == "SUCCESS")
-                alert("Data successfully submitted!");
+                alert("Data deleted!");
             else
                 console.log(data.msg)
         },
