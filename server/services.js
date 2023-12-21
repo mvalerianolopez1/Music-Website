@@ -8,11 +8,12 @@ var services = function(app) {
         var id = "lib" + Date.now();
 
         var musicData = {
-            title: req.body.title,
-            artist: req.body.artist,
-            album: req.body.album,
-            albumArtist: req.body.albumArtist,
-            yearReleased: req.body.yearReleased
+            id : id,
+            title : req.body.title,
+            artist : req.body.artist,
+            album : req.body.album,
+            albumArtist : req.body.albumArtist,
+            yearReleased : req.body.yearReleased
         }
 
         var musicLibraryData = [];
@@ -60,6 +61,42 @@ var services = function(app) {
             res.send(JSON.stringify({msg:"SUCCESS", musicLibraryData : data}));
         }
     });
+
+    app.post("/delete-data", function(req, res) {
+        var musicData = {
+            id : req.body.id
+        }
+
+        if(fs.existsSync(databaseFile)) {
+            fs.readFile(databaseFile, "utf8", function(err, data) {
+                if (err)
+                    res.send(JSON.stringify({msg: err}));
+                else {
+                    console.log(musicData.id);
+                    var idToDelete = musicData.id;
+                    var filteredArray = musicLibraryData.filter((obj) => obj.id !== idToDelete);
+
+                    // Object.keys(musicLibraryData).forEach(key => musicLibraryData[key] === undefined ? delete musicLibraryData[key] : {});
+
+                    fs.writeFile(databaseFile, JSON.stringify(filteredArray), function(err) {
+                        if (err)
+                            res.send(JSON.stringify({msg: err}));
+                        else
+                            res.send(JSON.stringify({msg: "SUCCESS"}));
+                    })
+                }
+            })
+        } else {
+            musicLibraryData.push(musicData);
+
+            fs.writeFile(databaseFile, JSON.stringify(musicLibraryData), function(err) {
+                if(err)
+                    res.send(JSON.stringify({msg : err}));
+                else
+                    res.send(JSON.stringify({msg : "SUCCESS"}));
+            })
+        }
+    })
 };
 
 module.exports = services;

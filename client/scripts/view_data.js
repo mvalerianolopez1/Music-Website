@@ -28,11 +28,13 @@ var htmlString = "";
 function showTable(tableData) {
     for(var i=0; i<tableData.length; i++) {
         htmlString += "<tr>";
+            htmlString += "<td>" + tableData[i].id + "</td>";
             htmlString += "<td>" + tableData[i].title + "</td>";
             htmlString += "<td>" + tableData[i].artist + "</td>";
             htmlString += "<td>" + tableData[i].album + "</td>";
             htmlString += "<td>" + tableData[i].albumArtist + "</td>";
             htmlString += "<td id='yearReleased'>" + tableData[i].yearReleased + "</td>";
+            htmlString += "<td class='invis'><div class='delete' id='" + tableData[i].id +"'>Delete</div></td>"
         htmlString += "</tr>";
     }
 
