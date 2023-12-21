@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Browse Library</title>
+        <link rel="stylesheet" href="./styles/styles1.css">
+        <link rel="stylesheet" href="./styles/browse_data.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+        <script src='./scripts/config.js'></script>
+        <script src='./scripts/browse_data.js'></script>
+    </head>
+  
+    <body data-ng-app="browseDataApp" data-ng-controller="browseDataCtrl">
+        <header>
+            <h1>The Music Library</h1>
+            <nav>
+                <p><a href="./music_home.html">Home</a></p>
+                <p><a href="./write_data.html">Submit Track</a></p>
+                <p><a href="./view_data.html">View Tracks</a></p>
+                <p><a href="#">View Artists</a></p>
+            </nav>
+        </header>
+
+        <main>
+            <div id="trackInfo">
+                <div>
+                    <label for="name">Title</label>
+                    <label class="trackInfoLabel" id="name">{{obj.title}}</label>
+                </div>
+        
+                <div>
+                    <label for="type">Artist</label>
+                    <label class="trackInfoLabel" id="type">{{obj.artist}}</label>
+                </div>
+        
+                <div>
+                    <label for="effect">Album</label>
+                    <label class="trackInfoLabel" id="effect">{{obj.album}}</label>
+                </div>
+        
+                <div>
+                    <label for="counter">Album Artist</label>
+                    <label class="trackInfoLabel" id="counter">{{ obj.albumArtist }}</label>
+                </div>
+                
+                <div>
+                    <label for="counter">Year</label>
+                    <label class="trackInfoLabel" id="counter">{{ obj.yearReleased }}</label>
+                </div>
+        
+                <div style="float:left; clear: right; margin-top: 30px; margin-left: 30px">
+                    <div style="float: left;">
+                        <button id="previous" data-ng-click="changeTrack(-1)" data-ng-hide="hidePrev">&lt&lt&lt Previous</button>
+                    </div>
+
+                    <div style="float: left">
+                        <button id="next" data-ng-click="changeTrack(1)" data-ng-hide="hideNext">Next&gt&gt&gt</button>
+                    </div>
+                </div>
+        
+                <div style="float: left; clear: left; margin-top: 20px; font-size: 24px; color: green;">
+                {{addResults}}</div>
+            </div>
+          </main>
+    </body>
+</html>
