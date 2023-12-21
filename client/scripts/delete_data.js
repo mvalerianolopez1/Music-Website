@@ -21,8 +21,9 @@ $("#musicRecords").on("click", ".delete", function() {
         data : jsonObject,
         success : function(res) {
             var data = JSON.parse(res);
-            if(data.msg == "SUCCESS")
+            if(data.msg == "SUCCESS") {
                 alert("Data deleted!");
+            }
             else
                 console.log(data.msg)
         },

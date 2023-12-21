@@ -17,7 +17,7 @@ app.use("/client", express.static(path.resolve(__dirname + "/../client/")));
 
 // Make server
 var server;
-var port = 5000;
+var port = process.env.PORT || process.env.NODE_PORT || 5000
 
 // Page listeners
 var router = require("./router.js");
@@ -25,7 +25,8 @@ router(app);
 
 // Service listeners
 var services = require("./services.js");
-services(app);
+services.services(app);
+services.initializeDatabase();
 
 // Start web server
 

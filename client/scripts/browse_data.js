@@ -11,7 +11,7 @@ app.controller("browseDataCtrl", function($scope, $http) {
             url: "http://127.0.0.1:5000" + "/get-records"
         }).then(function(response) {
             if(response.data.msg === "SUCCESS") {
-                musicLibraryData = response.data.musicLibraryData;
+                musicLibraryData = response.data.music;
                 $scope.obj = musicLibraryData[activeTrack];
                 $scope.showHide();
             } else {
