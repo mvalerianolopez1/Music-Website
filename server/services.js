@@ -109,10 +109,67 @@ var services = function(app) {
         // }
     });
 
+    app.get("/get-recordsByArtist", function(req, res) {
+        var trackArtist = req.query.artist;
+        var search = (trackArtist === "") ? { } : {artist:trackArtist};
+        
+        MongoClient.connect(dbURL, {useUnifiedTopology: true}, function(err, client) {
+            if(err)
+                return res.status(201).send(JSON.stringify({msg: err}));
+            else {
+                var dbo = client.db("musiclibrary");
 
+                dbo.collection("music").find(search).toArray(function(err, data) {
+                    if(err)
+                        return res.status(201).send(JSON.stringify({msg: err}));
+                    else {
+                        return res.status(200).send(JSON.stringify({msg: "SUCCESS", music: data}));
+                    }
+                });
+            }
+        })
+    });
+
+    app.put('/update-track', function(req, res) {
+        var trackID = req.body.trackId;
+        var title = req.body.title;
+        var artist = req.body.artist;
+        var album = req.body.album;
+        var albumArtist = req.body.albumArtist;
+        var year = req.body.yearReleased;
+
+        var s_id = new ObjectID(trackID);
+        var search = {_id : s_id};
+        var updateData = {
+            $set: {
+                title: title,
+                artist: artist,
+                album: album,
+                albumArtist: albumArtist,
+                yearReleased: year
+            }
+        };
+
+        MongoClient.connect(dbURL, {useUnifiedTopology: true}, function(err, client) {
+            if(err)
+                return res.status(201).send(JSON.stringify({msg: err}));
+            else {
+                var dbo = client.db("musiclibrary");
+
+                dbo.collection("music").updateOne(search, updateData, function(err) {
+                    if(err)
+                        return res.status(201).send(JSON.stringify({msg: err}));
+                    else {
+                        return res.status(200).send(JSON.stringify({msg: "SUCCESS"}));
+                    }
+                });
+            }
+        })
+    });
     
     app.post("/delete-data", function(req, res) {
         var trackID = req.body.id;
+        console.log(trackID);
         var m_id = new ObjectID(trackID);
         var search = {_id: m_id}
         MongoClient.connect(dbURL, {useUnifiedTopology: true}, function(err, client) {
@@ -120,7 +177,6 @@ var services = function(app) {
                 return res.status(201).send(JSON.stringify({msg: err}));
             else {
                 var dbo = client.db("musiclibrary");
-                
                 console.log(req.body.id);
 
                 dbo.collection("music").deleteOne(search, function(err) {

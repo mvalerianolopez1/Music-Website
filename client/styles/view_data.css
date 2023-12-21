@@ -22,8 +22,13 @@ thead {
     margin-bottom: 5px;
 }
 
+.trackId {
+    font-size: 10px;
+}
+
 .invis {
     border-color: transparent;
+    background-color: white;
 }
 
 .delete {
@@ -31,4 +36,20 @@ thead {
     border-radius: 10px;
     background-color: red;
     color: white;
+}
+
+.edit {
+    padding: 5px 5px;
+    border-radius: 10px;
+    background-color: rgb(131, 186, 159);
+    color: white;
+}
+
+#editForm {
+    padding-top: 20px;
+    font-size: 14px;
+}
+
+#buttons {
+    display: inline-block;
 }

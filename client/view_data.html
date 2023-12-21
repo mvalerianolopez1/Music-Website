@@ -4,12 +4,14 @@
         <title>Music Library - Tracks</title>
         <link rel="stylesheet" href="./styles/styles1.css">
         <link rel="stylesheet" href="./styles/view_data.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+        <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script> -->
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+        <script src="./scripts/config.js" async></script>
         <script src="./scripts/view_data.js" async></script>
         <script src="./scripts/delete_data.js" async></script>
     </head>
 
-    <body>
+    <body data-ng-app="trackTableApp" data-ng-controller="trackTableCtrl">
         <header>
             <h1>View the collection!</h1>
             <nav>
@@ -22,30 +24,89 @@
         </header>
 
         <main>
-            <div>
-                <table class="table">
-                    <colgroup>
-                        <col class='col-xs-3'>
-                    </colgroup>
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Title</th>
-                            <th>Artist</th>
-                            <th>Album</th>
-                            <th>Album Artist</th>
-                            <th>Year Released</th>
-                        </tr>
-                    </thead>
-                    <tbody id='musicRecords'></tbody>
-                </table>
-            </div>
-      
-            <div id="test"></div>
-      
-            <!-- <div id="buttonDiv">
-            <button id="refresh">Refresh Table</button>
-          </div> -->
+            <section data-ng-app="hideTable">
+                <div style="margin-left: 30px; padding-top: 5px; padding-bottom: 5px;">
+                    <label for="groupby">Artist</label>
+                    <select id="groupby" data-ng-model="selectedArtist" data-ng-options="artist.display for artist in artists" data-ng-change="redrawTable()"></select>
+                </div>
+
+                <div>
+                    <table class="table">
+                        <colgroup>
+                            <col class='col-xs-3'>
+                        </colgroup>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Title</th>
+                                <th>Artist</th>
+                                <th>Album</th>
+                                <th>Album Artist</th>
+                                <th>Year Released</th>
+                            </tr>
+
+                            <tr data-ng-repeat="obj in tracks">
+                                <td class="trackId">{{obj["_id"]}}</td>
+                                <td>{{obj.title}}</td>
+                                <td>{{obj.artist}}</td>
+                                <td>{{obj.album}}</td>
+                                <td>{{obj.albumArtist}}</td>
+                                <td id='yearReleased'>{{obj.yearReleased}}</td>
+                                <td class='invis'><div class='delete' data-ng-click="deleteTrack(obj['_id'])">Delete</div></td>
+                                <td class='invis'><div class='edit' data-ng-click="editTrack($index)">Edit</div></td>
+                            </tr>
+                        </thead>
+                        <tbody id='musicRecords'></tbody>
+                    </table>
+                </div>
+        
+                <div id="test"></div>
+            </section>
+
+            
+            <section data-ng-hide="hideForm" id="editForm">
+                <div>
+                    <label data-ng-model="spellID" hidden></label>
+                    <div>
+                        <label for="title">Title</label>
+                        <input type="text" id="title" data-ng-model="title" data-ng-chang=startNew()>
+                    </div>
+                
+                    <div>
+                        <label for="artist">Artist</label>
+                        <input type="text" id="artist" data-ng-model="artist" data-ng-chang=startNew()>
+                    </div>
+                
+                    <div>
+                        <label for="album">Album</label>
+                        <input type="text" id="album" data-ng-model="album" data-ng-chang=startNew()>
+                    </div>
+                
+                    <div>
+                        <label for="albumArtist">Album Artist</label>
+                        <input type="text" id="albumArtist" data-ng-model="albumArtist" data-ng-chang=startNew()>
+                    </div>
+                    
+                    <div>
+                        <label for="yearReleased">Year</label>
+                        <input type="text" id="yearReleased" data-ng-model="yearReleased" data-ng-chang=startNew()>
+                    </div>
+                    
+                    <div id="buttons">
+                        <div>
+                            <button id="submit" data-ng-click="updateTrack()">Update</button>
+                        </div>
+                        
+                        <div>
+                            <button id="cancelButton" data-ng-click="cancelUpdate()">Cancel</button>
+                        </div>
+                    </div>
+                
+                    <div style="color: green;">
+                        {{addResults}}
+                    </div>
+                </div>
+            </section>
         </main>
     </body>
 </html>
